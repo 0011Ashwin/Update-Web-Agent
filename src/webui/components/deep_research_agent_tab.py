@@ -24,7 +24,7 @@ async def _initialize_llm(provider: Optional[str], model_name: Optional[str], te
     try:
         logger.info(f"Initializing LLM: Provider={provider}, Model={model_name}, Temp={temperature}")
         # Use your actual LLM provider logic here
-        llm = llm_provider.get_llm_model(
+        llm = llm_provider.get_browser_use_llm(
             provider=provider,
             model_name=model_name,
             temperature=temperature,

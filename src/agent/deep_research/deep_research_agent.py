@@ -99,17 +99,13 @@ async def run_single_browser_task(
                 extra_browser_args=extra_args,
                 wss_url=wss_url,
                 cdp_url=cdp_url,
-                new_context_config=BrowserContextConfig(
-                    window_width=window_w,
-                    window_height=window_h,
-                )
+                window_size={"width": window_w, "height": window_h},
             )
         )
 
         context_config = BrowserContextConfig(
             save_downloads_path="./tmp/downloads",
-            window_height=window_h,
-            window_width=window_w,
+            window_size={"width": window_w, "height": window_h},
             force_new_context=True,
         )
         bu_browser_context = await bu_browser.new_context(config=context_config)

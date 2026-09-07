@@ -9,20 +9,22 @@ from playwright.async_api import (
     Playwright,
     async_playwright,
 )
-from browser_use.browser.browser import Browser, IN_DOCKER
+from browser_use.browser.browser import Browser
 from browser_use.browser.context import BrowserContext, BrowserContextConfig
+from browser_use.config import CONFIG
 from playwright.async_api import BrowserContext as PlaywrightBrowserContext
 import logging
 
-from browser_use.browser.chrome import (
-    CHROME_ARGS,
+from browser_use.browser.profile import (
+    CHROME_DEFAULT_ARGS,
     CHROME_DETERMINISTIC_RENDERING_ARGS,
     CHROME_DISABLE_SECURITY_ARGS,
     CHROME_DOCKER_ARGS,
     CHROME_HEADLESS_ARGS,
+    get_display_size,
+    get_window_adjustments,
 )
 from browser_use.browser.context import BrowserContext, BrowserContextConfig
-from browser_use.browser.utils.screen_resolution import get_screen_resolution, get_window_adjustments
 from browser_use.utils import time_execution_async
 import socket
 
@@ -33,40 +35,41 @@ logger = logging.getLogger(__name__)
 
 class CustomBrowser(Browser):
 
-    async def new_context(self, config: BrowserContextConfig | None = None) -> CustomBrowserContext:
-        """Create a browser context"""
-        browser_config = self.config.model_dump() if self.config else {}
-        context_config = config.model_dump() if config else {}
-        merged_config = {**browser_config, **context_config}
-        return CustomBrowserContext(config=BrowserContextConfig(**merged_config), browser=self)
+    @property
+    def config(self):
+        return self.browser_profile
+
+    async def new_context(self, config: BrowserContextConfig | None = None) -> 'CustomBrowser':
+        """Return this session, matching browser-use 0.5.11's context API."""
+        return self
 
     async def _setup_builtin_browser(self, playwright: Playwright) -> PlaywrightBrowser:
         """Sets up and returns a Playwright Browser instance with anti-detection measures."""
         assert self.config.browser_binary_path is None, 'browser_binary_path should be None if trying to use the builtin browsers'
 
         # Use the configured window size from new_context_config if available
-        if (
-                not self.config.headless
-                and hasattr(self.config, 'new_context_config')
-                and hasattr(self.config.new_context_config, 'window_width')
-                and hasattr(self.config.new_context_config, 'window_height')
-        ):
+        if not self.config.headless and self.config.window_size:
             screen_size = {
-                'width': self.config.new_context_config.window_width,
-                'height': self.config.new_context_config.window_height,
+            'width': self.config.window_size['width'],
+            'height': self.config.window_size['height'],
             }
             offset_x, offset_y = get_window_adjustments()
         elif self.config.headless:
             screen_size = {'width': 1920, 'height': 1080}
             offset_x, offset_y = 0, 0
         else:
-            screen_size = get_screen_resolution()
+            display_size = get_display_size()
+            screen_size = (
+                {'width': display_size.width, 'height': display_size.height}
+                if display_size
+                else {'width': 1920, 'height': 1080}
+            )
             offset_x, offset_y = get_window_adjustments()
 
         chrome_args = {
             f'--remote-debugging-port={self.config.chrome_remote_debugging_port}',
-            *CHROME_ARGS,
-            *(CHROME_DOCKER_ARGS if IN_DOCKER else []),
+            *CHROME_DEFAULT_ARGS,
+            *(CHROME_DOCKER_ARGS if CONFIG.IN_DOCKER else []),
             *(CHROME_HEADLESS_ARGS if self.config.headless else []),
             *(CHROME_DISABLE_SECURITY_ARGS if self.config.disable_security else []),
             *(CHROME_DETERMINISTIC_RENDERING_ARGS if self.config.deterministic_rendering else []),

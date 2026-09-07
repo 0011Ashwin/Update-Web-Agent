@@ -14,7 +14,7 @@ from browser_use.agent.views import (
 )
 from browser_use.browser.browser import BrowserConfig
 from browser_use.browser.context import BrowserContext, BrowserContextConfig
-from browser_use.browser.views import BrowserState
+from browser_use.browser.views import BrowserStateSummary
 from gradio.components import Component
 from langchain_core.language_models.chat_models import BaseChatModel
 
@@ -48,7 +48,7 @@ async def _initialize_llm(
             f"Initializing LLM: Provider={provider}, Model={model_name}, Temp={temperature}"
         )
         # Example using a placeholder function
-        llm = llm_provider.get_llm_model(
+        llm = llm_provider.get_browser_use_llm(
             provider=provider,
             model_name=model_name,
             temperature=temperature,
@@ -132,7 +132,7 @@ def _format_agent_output(model_output: AgentOutput) -> str:
 
 
 async def _handle_new_step(
-        webui_manager: WebuiManager, state: BrowserState, output: AgentOutput, step_num: int
+        webui_manager: WebuiManager, state: BrowserStateSummary, output: AgentOutput, step_num: int
 ):
     """Callback for each step taken by the agent, including screenshot display."""
 
@@ -508,10 +508,7 @@ async def run_agent_task(
                     extra_browser_args=extra_args,
                     wss_url=wss_url,
                     cdp_url=cdp_url,
-                    new_context_config=BrowserContextConfig(
-                        window_width=window_w,
-                        window_height=window_h,
-                    )
+                    window_size={"width": window_w, "height": window_h},
                 )
             )
 
@@ -524,8 +521,7 @@ async def run_agent_task(
                 if save_recording_path
                 else None,
                 save_downloads_path=save_download_path if save_download_path else None,
-                window_height=window_h,
-                window_width=window_w,
+                window_size={"width": window_w, "height": window_h},
             )
             if not webui_manager.bu_browser:
                 raise ValueError("Browser not initialized, cannot create context.")
@@ -552,7 +548,7 @@ async def run_agent_task(
 
         # Pass the webui_manager to callbacks when wrapping them
         async def step_callback_wrapper(
-                state: BrowserState, output: AgentOutput, step_num: int
+                state: BrowserStateSummary, output: AgentOutput, step_num: int
         ):
             await _handle_new_step(webui_manager, state, output, step_num)
 
@@ -1024,9 +1020,8 @@ def create_browser_use_agent_tab(webui_manager: WebuiManager):
             lambda: webui_manager.bu_chat_history,  # Load history dynamically
             elem_id="browser_use_chatbot",
             label="Agent Interaction",
-            type="messages",
             height=600,
-            show_copy_button=True,
+            buttons=["copy"],
         )
         user_input = gr.Textbox(
             label="Your Task or Response",

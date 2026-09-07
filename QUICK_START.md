@@ -1,134 +1,134 @@
-# 🚀 Ghost UI - Quick Start Guide
+# Quick Start: OmniRoute + Obsidian Vault
 
-## ⚡ Quick Commands
+## ⚡ TL;DR - 3 Steps to Go
 
-### Start Ghost UI
-```powershell
-cd "e:\Project-AGENT-Web\Web-Agent-main"
+### Step 1: Verify Setup
+```bash
+cd d:\Web-testing-OG\Update-Web-Agent
+python check_omniroute.py
+```
+✅ Should show: "All systems ready!"
+
+### Step 2: Open Obsidian Vault
+1. Launch Obsidian Desktop
+2. Click "Open vault as folder"
+3. Select: `d:\Obsidian\Update-Web-Agent-Vault`
+
+### Step 3: Run Agent
+```bash
 python webui.py
+# or run any agent task
 ```
 
-### Find Task IDs
-```powershell
-Get-ChildItem "tmp\agent_history" | Select-Object Name
-```
+**🎉 That's it! Agent research automatically appears in Obsidian.**
 
-### Test Fixes
-```powershell
-python test_fixes.py
+---
+
+## 📁 Vault Locations
+
+| Item | Path |
+|------|------|
+| **Vault Root** | `d:\Obsidian\Update-Web-Agent-Vault` |
+| **Research** | `.../Research/` |
+| **Findings** | `.../Findings/` |
+| **Task Logs** | `.../Task Logs/` |
+| **OmniRoute** | `http://localhost:20128` |
+
+---
+
+## 🔑 Key Configuration
+
+**.env settings:**
+```
+ANTHROPIC_ENDPOINT=http://localhost:20128
+ANTHROPIC_API_KEY=sk-994bd13c21f1dd82-749150-df4bdba7
+OBSIDIAN_VAULT_PATH=d:\Obsidian\Update-Web-Agent-Vault
 ```
 
 ---
 
-## 🎯 How to Use Visualizations
+## 💻 Using the Vault in Code
 
-### 1️⃣ Step Flowchart
-```
-Tab: 📝 Notes & Visualization → 🔄 Step Flowchart
-Task ID: d1f75729-4056-4540-b3d8-a1113371c3f7
-Click: 📊 Load Flowchart
-```
+```python
+# Import vault functions
+from src.utils.obsidian_vault import (
+    write_research_to_vault,
+    write_finding_to_vault,
+    write_task_log_to_vault
+)
 
-### 2️⃣ Mind Map
-```
-Tab: 📝 Notes & Visualization → 🧠 Mind Map
-Task ID: d1f75729-4056-4540-b3d8-a1113371c3f7
-Click: 🗺️ Generate Mind Map
-```
+# Write research
+await write_research_to_vault(
+    topic="My Topic",
+    content="# My Research\n\nFindings here...",
+    tags=["research"]
+)
 
-### 3️⃣ Task Notes
-```
-Tab: 📝 Notes & Visualization → 📝 Task Notes
-Task ID: d1f75729-4056-4540-b3d8-a1113371c3f7
-Note Content: [Your observations here]
-Click: 💾 Save Note
+# Write finding
+await write_finding_to_vault(
+    title="Important Discovery",
+    finding="What I found",
+    source="https://url",
+    confidence="high"
+)
+
+# Log task
+await write_task_log_to_vault(
+    task_id="task-001",
+    task_name="Research Task",
+    status="completed",
+    details="Task details",
+    result="Result summary"
+)
 ```
 
 ---
 
-## ✅ What Got Fixed
+## 🎯 What Happens Automatically
 
-- ✅ **Action Names:** Now shows "Open Tab", "Click Element" (not "Unknown Action")
-- ✅ **Timing:** Shows accurate duration like "23.99s" (not "N/A")
-- ✅ **Tokens:** Shows actual token count like "3151" (not "N/A")
-- ✅ **Flowchart:** Beautiful animated step cards
-- ✅ **Mind Map:** Visual task structure
-- ✅ **Notes:** Save and load working
+✅ Task starts → Logged to vault  
+✅ Agent runs → Can write research & findings  
+✅ Task completes → Summary logged to vault  
+✅ Open Obsidian → All data synced and searchable  
 
 ---
 
-## 🎨 Test Tasks to Try
+## 🔍 Useful Obsidian Queries
 
-### Quick Test (1 min)
-```
-Check the current weather in New York City
-```
+In Obsidian, create notes with these DataView queries:
 
-### Medium Test (3 min)
-```
-Find the top 3 trending topics on Hacker News right now
+### Recent Research
+```dataview
+LIST FROM "Research" SORT file.ctime DESC LIMIT 10
 ```
 
-### Advanced Test (5 min)
+### High-Confidence Findings
+```dataview
+TABLE confidence, source FROM "Findings" WHERE confidence = "high"
 ```
-Research the history of AI: Find when it was coined, list 5 major milestones
+
+### Today's Tasks
+```dataview
+LIST FROM "Task Logs" WHERE file.ctime.year = date(today).year AND file.ctime.month = date(today).month AND file.ctime.day = date(today).day
 ```
 
-**Best for Visualization:** Use the "Research AI history" task - creates amazing flowcharts!
+---
+
+## ❓ Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| Files not appearing | Restart Obsidian or press `Ctrl+R` |
+| OmniRoute not found | Run `check_omniroute.py` to diagnose |
+| Can't write to vault | Check folder permissions at `d:\Obsidian\Update-Web-Agent-Vault` |
+| Encoding errors | Ensure .env is UTF-8 and uses forward slashes |
 
 ---
 
-## 📂 Your Task IDs
+## 📚 Full Guide
 
-From `tmp\agent_history\`:
-- `d1f75729-4056-4540-b3d8-a1113371c3f7` ✅
-- `6abed69e-bdb5-40f2-9a32-e68a6586db79`
-- `4457e43a-0812-4bf6-9a43-51828a2ca5b3`
-
-**Tip:** Just copy-paste any UUID from the folder!
+See `OBSIDIAN_VAULT_GUIDE.md` for complete documentation.
 
 ---
 
-## 🔥 Power User Tips
-
-1. **Dashboard First:** Check `📊 Dashboard` to see all your task stats
-2. **Copy Task ID:** Right-click folder name → Copy
-3. **Auto-refresh:** Use 🔄 buttons to reload data
-4. **Save Notes:** Document interesting findings for later
-5. **Watch Animations:** The Ghost theme has cool loading effects!
-
----
-
-## 📖 Documentation Files
-
-- `FIXES_APPLIED.md` - Technical details of what was fixed
-- `ISSUE_RESOLUTION.md` - Complete analysis and solutions
-- `test_fixes.py` - Verification script
-- `TASK_ID_VISUAL_GUIDE.md` - How to find Task IDs
-- This file - Quick reference!
-
----
-
-## 🐛 Troubleshooting
-
-**"Task ID not found"**
-→ Check if folder exists: `Get-ChildItem "tmp\agent_history"`
-
-**"Module not found"**
-→ Install dependencies: `pip install -r requirements.txt`
-
-**"No data available"**
-→ Run an agent task first from the main tab
-
----
-
-## 💡 Remember
-
-- Task IDs are **UUIDs** (long strings with dashes)
-- All features now work **100%**
-- Test script confirms everything is **FIXED**
-- Enjoy your Ghost UI! 🎭👻
-
----
-
-**Status:** ✅ Ready to use!
+**Your agent's second brain is now ready. Every discovery becomes searchable knowledge! 🧠**

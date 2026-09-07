@@ -1,0 +1,100 @@
+{
+  "history": [
+    {
+      "model_output": null,
+      "result": [
+        {
+          "is_done": false,
+          "error": "('Error code: 400 - {\\'error\\': {\\'message\\': \"Ambiguous model \\'claude-3-5-sonnet-20241022\\'. Use provider/model prefix (ex: aiml/claude-3-5-sonnet-20241022 or in-ai/claude-3-5-sonnet-20241022).\", \\'type\\': \\'invalid_request_error\\', \\'code\\': \\'bad_request\\'}}', 400)",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "page_id": 0,
+            "url": "about:blank",
+            "title": "ignore this tab and do not use it",
+            "parent_page_id": null
+          }
+        ],
+        "screenshot_path": null,
+        "interacted_element": [
+          null
+        ],
+        "url": "about:blank",
+        "title": "New Tab"
+      },
+      "metadata": {
+        "step_start_time": 1788715246.4678442,
+        "step_end_time": 1788715249.5184278,
+        "step_number": 1
+      }
+    },
+    {
+      "model_output": null,
+      "result": [
+        {
+          "is_done": false,
+          "error": "('Error code: 400 - {\\'error\\': {\\'message\\': \"Ambiguous model \\'claude-3-5-sonnet-20241022\\'. Use provider/model prefix (ex: aiml/claude-3-5-sonnet-20241022 or in-ai/claude-3-5-sonnet-20241022).\", \\'type\\': \\'invalid_request_error\\', \\'code\\': \\'bad_request\\'}}', 400)",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "page_id": 0,
+            "url": "about:blank",
+            "title": "ignore this tab and do not use it",
+            "parent_page_id": null
+          }
+        ],
+        "screenshot_path": null,
+        "interacted_element": [
+          null
+        ],
+        "url": "about:blank",
+        "title": "New Tab"
+      },
+      "metadata": {
+        "step_start_time": 1788715249.5190067,
+        "step_end_time": 1788715249.9932764,
+        "step_number": 2
+      }
+    },
+    {
+      "model_output": null,
+      "result": [
+        {
+          "is_done": false,
+          "error": "('Error code: 400 - {\\'error\\': {\\'message\\': \"Ambiguous model \\'claude-3-5-sonnet-20241022\\'. Use provider/model prefix (ex: aiml/claude-3-5-sonnet-20241022 or in-ai/claude-3-5-sonnet-20241022).\", \\'type\\': \\'invalid_request_error\\', \\'code\\': \\'bad_request\\'}}', 400)",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "page_id": 0,
+            "url": "about:blank",
+            "title": "ignore this tab and do not use it",
+            "parent_page_id": null
+          }
+        ],
+        "screenshot_path": null,
+        "interacted_element": [
+          null
+        ],
+        "url": "about:blank",
+        "title": "New Tab"
+      },
+      "metadata": {
+        "step_start_time": 1788715249.993986,
+        "step_end_time": 1788715250.4433603,
+        "step_number": 3
+      }
+    }
+  ]
+}

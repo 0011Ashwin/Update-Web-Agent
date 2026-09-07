@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import inspect
 import logging
 import uuid
@@ -6,8 +8,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Type, Union, get_type_hints
 
 from browser_use.controller.registry.views import ActionModel
-from langchain.tools import BaseTool
-from langchain_mcp_adapters.client import MultiServerMCPClient
+from langchain_core.tools import BaseTool
 from pydantic import BaseModel, Field, create_model
 from pydantic.v1 import BaseModel, Field
 
@@ -32,6 +33,8 @@ async def setup_mcp_client_and_tools(mcp_server_config: Dict[str, Any]) -> Optio
         return None
 
     try:
+        from langchain_mcp_adapters.client import MultiServerMCPClient
+
         if "mcpServers" in mcp_server_config:
             mcp_server_config = mcp_server_config["mcpServers"]
         client = MultiServerMCPClient(mcp_server_config)

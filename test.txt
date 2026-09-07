@@ -1,0 +1,65 @@
+Update-Web-Agent Test Tasks
+===========================
+
+Use these tasks one at a time in the web UI. Start with Task 1.
+
+Task 1 - Basic browser navigation
+---------------------------------
+Open https://example.com and report the page title and the main heading.
+
+Expected result: The agent opens the page and returns the title and heading.
+
+Task 2 - Read and summarize a public page
+-----------------------------------------
+Open https://www.wikipedia.org and summarize the main purpose of the page in three bullet points.
+
+Expected result: The agent reads visible page content and returns a short summary.
+
+Task 3 - Find links
+-------------------
+Open https://example.com and list every visible link text and its destination URL.
+
+Expected result: The agent extracts the link information without clicking external links.
+
+Task 4 - Structured extraction
+------------------------------
+Open https://books.toscrape.com and list the first five book titles and their displayed prices in a table.
+
+Expected result: The agent collects repeated items and formats the result clearly.
+
+Task 5 - Search and compare
+---------------------------
+Search the web for the official Python documentation homepage and the official Python downloads page. Return both URLs and explain the difference between them.
+
+Expected result: The agent searches, identifies official results, and compares them.
+
+Task 6 - Obsidian task-log test
+--------------------------------
+Open https://example.com, report the page title, and finish with a short execution summary.
+
+Expected result: A task log should appear in:
+D:\Obsidian\Update-Web-Agent-Vault\Task Logs
+
+Task 7 - Research vault test
+----------------------------
+Research the question "What is the Python programming language?" using public web pages. Return five short factual points and the source URLs.
+
+Expected result: The answer is returned in the UI. Check the Research folder if the task is configured to save research notes:
+D:\Obsidian\Update-Web-Agent-Vault\Research
+
+Task 8 - Browser interaction test (read-only)
+----------------------------------------------
+Open https://www.w3schools.com/html/html_forms.asp and describe the visible form fields. Do not submit the form.
+
+Expected result: The agent inspects the form but does not send data.
+
+Troubleshooting checklist
+=========================
+1. Start OmniRoute before launching the agent.
+2. Run: python check_omniroute.py
+3. Launch the UI with: python webui.py
+4. Confirm the UI is using the Anthropic provider through OmniRoute.
+5. After a task, refresh Obsidian and check Task Logs.
+
+Do not use this file for tasks involving passwords, private accounts, payments,
+deleting data, or submitting forms unless you explicitly want to test those flows.

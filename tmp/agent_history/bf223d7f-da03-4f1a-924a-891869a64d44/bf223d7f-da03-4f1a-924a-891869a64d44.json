@@ -1,0 +1,100 @@
+{
+  "history": [
+    {
+      "model_output": null,
+      "result": [
+        {
+          "is_done": false,
+          "error": "(\"AsyncMessages.create() got an unexpected keyword argument 'temperature'\", 502)",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "page_id": 0,
+            "url": "about:blank",
+            "title": "ignore this tab and do not use it",
+            "parent_page_id": null
+          }
+        ],
+        "screenshot_path": null,
+        "interacted_element": [
+          null
+        ],
+        "url": "about:blank",
+        "title": "New Tab"
+      },
+      "metadata": {
+        "step_start_time": 1788714781.6630154,
+        "step_end_time": 1788714827.969405,
+        "step_number": 1
+      }
+    },
+    {
+      "model_output": null,
+      "result": [
+        {
+          "is_done": false,
+          "error": "(\"AsyncMessages.create() got an unexpected keyword argument 'temperature'\", 502)",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "page_id": 0,
+            "url": "about:blank",
+            "title": "ignore this tab and do not use it",
+            "parent_page_id": null
+          }
+        ],
+        "screenshot_path": null,
+        "interacted_element": [
+          null
+        ],
+        "url": "about:blank",
+        "title": "New Tab"
+      },
+      "metadata": {
+        "step_start_time": 1788714827.9712956,
+        "step_end_time": 1788714828.003531,
+        "step_number": 2
+      }
+    },
+    {
+      "model_output": null,
+      "result": [
+        {
+          "is_done": false,
+          "error": "(\"AsyncMessages.create() got an unexpected keyword argument 'temperature'\", 502)",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "page_id": 0,
+            "url": "about:blank",
+            "title": "ignore this tab and do not use it",
+            "parent_page_id": null
+          }
+        ],
+        "screenshot_path": null,
+        "interacted_element": [
+          null
+        ],
+        "url": "about:blank",
+        "title": "New Tab"
+      },
+      "metadata": {
+        "step_start_time": 1788714828.0038736,
+        "step_end_time": 1788714828.0373993,
+        "step_number": 3
+      }
+    }
+  ]
+}

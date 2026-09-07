@@ -26,7 +26,6 @@ from langchain_core.outputs import (
     LLMResult,
     RunInfo,
 )
-from langchain_ollama import ChatOllama
 from langchain_core.output_parsers.base import OutputParserLike
 from langchain_core.runnables import Runnable, RunnableConfig
 from langchain_core.tools import BaseTool
@@ -40,13 +39,8 @@ from typing import (
     Union,
     cast, List,
 )
-from langchain_anthropic import ChatAnthropic
-from langchain_mistralai import ChatMistralAI
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_ollama import ChatOllama
 from langchain_openai import AzureChatOpenAI, ChatOpenAI
-from langchain_ibm import ChatWatsonx
-from langchain_aws import ChatBedrock
+from langchain_ollama import ChatOllama
 from pydantic import SecretStr
 
 from src.utils import config
@@ -167,7 +161,8 @@ def get_llm_model(provider: str, **kwargs):
 
     if provider == "anthropic":
         if not kwargs.get("base_url", ""):
-            base_url = "https://api.anthropic.com"
+            # Support both ANTHROPIC_ENDPOINT and ANTHROPIC_BASE_URL for OmniRoute
+            base_url = os.getenv("ANTHROPIC_ENDPOINT", "") or os.getenv("ANTHROPIC_BASE_URL", "") or "https://api.anthropic.com"
         else:
             base_url = kwargs.get("base_url")
 
@@ -352,3 +347,45 @@ def get_llm_model(provider: str, **kwargs):
         )
     else:
         raise ValueError(f"Unsupported provider: {provider}")
+
+
+def get_browser_use_llm(provider: str, **kwargs):
+    """Create a browser-use native model for browser-use Agent instances."""
+    api_key = kwargs.get("api_key", "") or os.getenv(f"{provider.upper()}_API_KEY", "")
+    model = kwargs.get("model_name")
+    temperature = kwargs.get("temperature", 0.0)
+    base_url = kwargs.get("base_url")
+
+    if provider == "anthropic":
+        from browser_use.llm.anthropic.chat import ChatAnthropic
+
+        return ChatAnthropic(
+            model=model or "claude-3-5-sonnet-20241022",
+            temperature=temperature,
+            base_url=base_url or os.getenv("ANTHROPIC_ENDPOINT", "") or os.getenv("ANTHROPIC_BASE_URL", "") or "https://api.anthropic.com",
+            api_key=api_key,
+        )
+
+    if provider == "google":
+        from browser_use.llm.google.chat import ChatGoogle
+
+        return ChatGoogle(model=model or "gemini-2.0-flash", temperature=temperature, api_key=api_key)
+
+    if provider == "ollama":
+        from browser_use.llm.ollama.chat import ChatOllama
+
+        return ChatOllama(
+            model=model or "llama3.2",
+            temperature=temperature,
+            host=base_url or "http://127.0.0.1:11434",
+        )
+
+    from browser_use.llm.openai.chat import ChatOpenAI
+
+    endpoint = base_url or os.getenv(f"{provider.upper()}_ENDPOINT", "https://api.openai.com/v1")
+    return ChatOpenAI(
+        model=model or "gpt-4o",
+        temperature=temperature,
+        base_url=endpoint,
+        api_key=api_key,
+    )

@@ -2,7 +2,7 @@
 
 See [QUICK_START.md](QUICK_START.md) and [OBSIDIAN_VAULT_GUIDE.md](OBSIDIAN_VAULT_GUIDE.md)
 
-
+end work
 ## ?? NEW: Real-Time Obsidian Vault Integration
 
 The agent now automatically logs all research, findings, and task execution to an **Obsidian vault** that syncs in real-time.
